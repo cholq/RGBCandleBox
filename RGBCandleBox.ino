@@ -224,6 +224,7 @@ class RGB_Candle
 };
 
 RGB_Candle candle0 = RGB_Candle();
+RGB_Candle candle2 = RGB_Candle();
 RGB_Candle candle7 = RGB_Candle();
 
 void setup() {
@@ -232,8 +233,9 @@ void setup() {
 
   delay(5000);
 
-  candle0.begin(3,4,5,0);
-  candle7.begin(5,4,3,7);
+  candle0.begin(A3,A4,A5,0);
+  candle2.begin(A9,A11,A10,2);
+  candle7.begin(A1,A2,A0,7);
 
   tlc.begin();
   if (oe >= 0) {
@@ -252,6 +254,7 @@ SIGNAL(TIMER0_COMPA_vect)
 {
   unsigned long lCurrMillis = millis();
   candle0.Flicker(lCurrMillis);
+  candle2.Flicker(lCurrMillis);
   candle7.Flicker(lCurrMillis);
 }
 
