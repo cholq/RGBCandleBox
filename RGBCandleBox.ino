@@ -34,6 +34,7 @@ Adafruit_TLC5947 tlc = Adafruit_TLC5947(NUM_TLC5974, clock, data, latch);
 
 class RGB_Candle 
 {
+  
   // pins to read RGB values set by user
   int mRedPin;
   int mGreenPin;
@@ -51,15 +52,24 @@ class RGB_Candle
   int mTLCIndex;
   
   public:
-  RGB_Candle(int pRedPin, int pGreenPin, int pBluePin, int pTLCIndex) 
+  
+  RGB_Candle() 
+  {
+
+    mRedPin = 0;
+    mGreenPin = 0;
+    mBluePin = 0;
+    mState = StateUnknown;
+    mPrevMillis = 0;
+    mDelay = 0;
+    mTLCIndex = 0;
+  }
+  
+  void begin(int pRedPin, int pGreenPin, int pBluePin, int pTLCIndex)
   {
     mRedPin = pRedPin;
     mGreenPin = pGreenPin;
     mBluePin = pBluePin;
-    
-    mState = StateUnknown;
-    mPrevMillis = 0;
-    mDelay = 0;
     mTLCIndex = pTLCIndex;
   }
   
@@ -71,6 +81,7 @@ class RGB_Candle
       if (pCurrMillis - mPrevMillis >= mDelay) 
       {
         readAllValues();
+        //print_debug();
         writeAllValues(mRedValue, mGreenValue, mBlueValue);
         mDelay = random(0,200);
         mState = StateShowDiff;
@@ -83,6 +94,7 @@ class RGB_Candle
       {
         // only vary the color on highest value to create flicker effect
         readAllValues();
+        //print_debug();
         switch (determineHighestValue(mRedValue, mGreenValue, mBlueValue)) {
           case ColorRed:
             writeAllValues(calculateFlickerDiff(mRedValue), mGreenValue, mBlueValue);
@@ -108,11 +120,34 @@ class RGB_Candle
     }
   }
   
+    void print_debug() 
+    {
+      Serial.println("---------------------");
+      
+      Serial.print("  TLC Index=");
+      Serial.println(mTLCIndex);
+      Serial.print("Red pin=");
+      Serial.print(mRedPin);
+      Serial.print("  value=");
+      Serial.println(mRedValue);
+      Serial.print("Green=");
+      Serial.print(mGreenPin);
+      Serial.print("  value=");
+      Serial.println(mGreenValue);
+      Serial.print("Blue=");
+      Serial.print(mBluePin);
+      Serial.print("  value=");
+      Serial.println(mBlueValue);
+    }
+  
   private:
     void readAllValues() {
       mRedValue = calcRGBDisplayValue(analogRead(mRedPin)); 
       mGreenValue = calcRGBDisplayValue(analogRead(mGreenPin)); 
       mBlueValue = calcRGBDisplayValue(analogRead(mBluePin)); 
+           
+      //print_debug();
+      
     }
 
     int calcRGBDisplayValue(int pInValue) {
@@ -121,12 +156,10 @@ class RGB_Candle
     
     void writeAllValues(int pRedValue, int pGreenValue, int pBlueValue) {
       
-      //analogWrite(mRedLED, pgm_read_byte(&gamma[pRedValue]));  
-      //analogWrite(mGreenLED, pgm_read_byte(&gamma[pGreenValue])); 
-      //analogWrite(mBlueLED, pgm_read_byte(&gamma[pBlueValue]));  
       uint16_t r = pgm_read_byte(&gamma[pRedValue]);  
       uint16_t g = pgm_read_byte(&gamma[pGreenValue]);  
       uint16_t b = pgm_read_byte(&gamma[pBlueValue]);
+      
       tlc.setLED(mTLCIndex, (r*16), (g*16), (b*16));
       tlc.write();
     }
@@ -190,12 +223,17 @@ class RGB_Candle
   
 };
 
-RGB_Candle candle0(A3, A4, A5, 0);
-RGB_Candle candle7(A4, A5, A3, 7);
+RGB_Candle candle0 = RGB_Candle();
+RGB_Candle candle7 = RGB_Candle();
 
 void setup() {
   
   Serial.begin(9600);
+
+  delay(5000);
+
+  candle0.begin(3,4,5,0);
+  candle7.begin(5,4,3,7);
 
   tlc.begin();
   if (oe >= 0) {
