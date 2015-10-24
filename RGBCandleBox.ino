@@ -223,18 +223,18 @@ class RGB_Candle
   
 };
 
-RGB_Candle candle0 = RGB_Candle();
-RGB_Candle candle2 = RGB_Candle();
+RGB_Candle candle5 = RGB_Candle();
+RGB_Candle candle6 = RGB_Candle();
 RGB_Candle candle7 = RGB_Candle();
 
 void setup() {
   
   Serial.begin(9600);
 
-  delay(5000);
+  //delay(5000);
 
-  candle0.begin(A3,A4,A5,0);
-  candle2.begin(A9,A11,A10,2);
+  candle5.begin(A3,A4,A5,5);
+  candle6.begin(A9,A11,A10,6);
   candle7.begin(A1,A2,A0,7);
 
   tlc.begin();
@@ -253,8 +253,8 @@ void setup() {
 SIGNAL(TIMER0_COMPA_vect) 
 {
   unsigned long lCurrMillis = millis();
-  candle0.Flicker(lCurrMillis);
-  candle2.Flicker(lCurrMillis);
+  candle5.Flicker(lCurrMillis);
+  candle6.Flicker(lCurrMillis);
   candle7.Flicker(lCurrMillis);
 }
 
