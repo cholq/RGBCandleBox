@@ -246,8 +246,8 @@ void setup() {
   //delay(5000);
 
   candle5.begin(A5,A4,A3,5);
-  candle6.begin(A10,A11,A9,6);
-  candle7.begin(A1,A2,A0,7);
+  candle6.begin(A10,A9,11,6);
+  candle7.begin(A2,A1,A0,7);
 
   tlc.begin();
   if (oe >= 0) {
