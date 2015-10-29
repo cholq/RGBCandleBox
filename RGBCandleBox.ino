@@ -245,8 +245,8 @@ void setup() {
 
   //delay(5000);
 
-  candle5.begin(A3,A4,A5,5);
-  candle6.begin(A9,A11,A10,6);
+  candle5.begin(A5,A4,A3,5);
+  candle6.begin(A10,A11,A9,6);
   candle7.begin(A1,A2,A0,7);
 
   tlc.begin();
@@ -266,8 +266,8 @@ SIGNAL(TIMER0_COMPA_vect)
 {
   unsigned long lCurrMillis = millis();
   candle5.Flicker(lCurrMillis);
-  //candle6.Flicker(lCurrMillis);
-  //candle7.Flicker(lCurrMillis);
+  candle6.Flicker(lCurrMillis);
+  candle7.Flicker(lCurrMillis);
 }
 
 void loop() 
