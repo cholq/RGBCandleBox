@@ -169,16 +169,28 @@ class RGB_Candle
       LEDColor lReturn = ColorUnknown;
       
       if (pRed > pBlue) {
-        if (pRed > pGreen)
-          lReturn = ColorRed;
-        else
-          lReturn = ColorGreen;
+        if (pRed > pGreen) {
+          if (pRed > 28) {
+            lReturn = ColorRed;
+          }
+        }
+        else {
+          if (pGreen > 28) {
+            lReturn = ColorGreen;
+          }
+        }
       }
       else {
-        if (pBlue > pGreen)
-          lReturn = ColorBlue;
-        else
-          lReturn = ColorGreen;
+        if (pBlue > pGreen) {
+          if (pBlue > 28) {
+            lReturn = ColorBlue;
+          }
+        }
+        else{
+          if (pGreen > 28) {
+            lReturn = ColorGreen;
+          }
+        }
       }
       
       return lReturn;
@@ -254,8 +266,8 @@ SIGNAL(TIMER0_COMPA_vect)
 {
   unsigned long lCurrMillis = millis();
   candle5.Flicker(lCurrMillis);
-  candle6.Flicker(lCurrMillis);
-  candle7.Flicker(lCurrMillis);
+  //candle6.Flicker(lCurrMillis);
+  //candle7.Flicker(lCurrMillis);
 }
 
 void loop() 
