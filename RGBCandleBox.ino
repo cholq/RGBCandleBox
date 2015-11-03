@@ -81,7 +81,7 @@ class RGB_Candle
       if (pCurrMillis - mPrevMillis >= mDelay) 
       {
         readAllValues();
-        //print_debug();
+        print_debug();
         writeAllValues(mRedValue, mGreenValue, mBlueValue);
         mDelay = random(0,200);
         mState = StateShowDiff;
@@ -245,9 +245,9 @@ void setup() {
 
   //delay(5000);
 
-  candle5.begin(A5,A4,A3,5);
-  candle6.begin(A10,A9,11,6);
-  candle7.begin(A2,A1,A0,7);
+  candle5.begin(A5,A4,A3,5);  
+  candle6.begin(A2,A1,A0,6);
+  candle7.begin(A10,A9,11,7);
 
   tlc.begin();
   if (oe >= 0) {
